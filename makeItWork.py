@@ -35,29 +35,30 @@ def shouldBeFalling(playerPosX, playerPosY):
                 return (248, False)
         else:
                 return (playerPosY, True)
+        brick = Brick().brickdraw()
 
 
 
 
 
-def redrawGameWindow():
-        global playerPosY
-        bg = pygame.image.load("resized_mountains.png")
+
+def redrawGameWindow(playerPosX):
+        
+        
+        bg = pygame.image.load("resized_mountains.png").convert()
+        bg1 = pygame.image.load("newmountain.png").convert()
+       
         DS.blit(bg, (0,0))
+        if playerPosX >= 500:
+                playerPosX -= 500
+                DS.blit(bg1, (0,0))
+                
         DS.blit(char, (playerPosX, playerPosY))
         DS.blit(brick, (200, 400))
         DS.blit(brick2, (300, 300))
+        
+                
 
-class brick():
-        def __init__(self):
-                self.x1 = 0
-                self.y1 = 0
-                self.x = [100,200,300,400,500]
-                self.y = [100,200,300,400,500]
-        def brickdraw(self, DS):
-                for i in range len(self.x):
-                        self.x1 = self.x[i]
-                        self.y1 = self.y[i]
 
 
         
@@ -69,6 +70,7 @@ AREA = W * H
 # initialise display
 pygame.init()
 CLOCK = pygame.time.Clock()
+global DS
 DS = pygame.display.set_mode((W, H))
 pygame.display.set_caption("code.Pylet - Scrolling Background with Player")
 FPS = 30
@@ -83,6 +85,8 @@ brick = pygame.image.load("brick.png").convert()
 brick2 = pygame.image.load("brick.png").convert()
 
 # some variables
+global playerPosX
+global playerPosY
 playerPosX = 0
 playerPosY = 100
 jumping = False
@@ -127,7 +131,7 @@ while True:
                 playerPosY = playerPosY + 550
 
        
-        redrawGameWindow()
+        redrawGameWindow(playerPosX)
 
         pygame.display.update()
         CLOCK.tick(FPS)
